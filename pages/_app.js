@@ -1,7 +1,9 @@
-import '../styles/globals.css'
+import React from 'react';
+import '../styles/globals.css';
+import Countries from '../src/Countries/Countries';
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+function MyApp({ pageProps }) {
+  return <Countries {...pageProps} />;
 }
 
-export default MyApp
+export default MyApp;
