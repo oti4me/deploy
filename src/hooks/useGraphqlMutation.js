@@ -1,4 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
+import to from 'await-to-ts';
+import { request } from 'graphql-request';
 
 export default function useGraphqlMutation(mutation, requestHeaders) {
   const [data, setData] = useState(undefined);
@@ -10,7 +12,7 @@ export default function useGraphqlMutation(mutation, requestHeaders) {
       setError(null);
       setIsLoading(true);
       const [err, data] = await to(
-        client.request(mutation, variables, requestHeaders)
+        request('my-api/graphql', mutation, variables, requestHeaders)
       );
       setError(err);
       setData(data);

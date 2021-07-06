@@ -1,18 +1,15 @@
 import React from 'react';
 import { gql } from 'graphql-request';
 import useGraphqlMutation from '../hooks/useGraphqlMutation';
-import useGraphqlQuery from '../hooks/useGraphqlQuery';
+// import useGraphqlQuery from '../hooks/useGraphqlQuery';
 
 function Countries(props) {
   const query = gql`
-    {
-      countries {
-        name
-        native
-      }
+    mutation sendSignInLinkToEmail($email: String!, $recaptchaToken: String!) {
+      sendSignInLinkToEmail(email: $email, recaptchaToken: $recaptchaToken)
     }
   `;
-  const { data, error } = useGraphqlQuery(query);
+  const { data, error, isLoading, action } = useGraphqlMutation(query);
 
   if (error) {
     return <div>Error loading data from the api!!</div>;
@@ -20,9 +17,17 @@ function Countries(props) {
 
   return (
     <div>
-      {data?.countries?.map((country) => (
-        <div key={country.name}>Name: {country.name}</div>
-      ))}
+      <div>IS SUCCESSFUL: {data?.sendSignInLinkToEmail}</div>
+      <button
+        onClick={() =>
+          action({
+            email: process.env.NEXT_PUBLIC_USERNAME,
+            recaptchaToken: '',
+          })
+        }
+      >
+        {isLoading ? 'Loading...' : 'Request'}
+      </button>
     </div>
   );
 }
